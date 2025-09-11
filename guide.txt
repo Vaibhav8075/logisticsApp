@@ -1,0 +1,67 @@
+Logistics Inventory Management
+
+1. Raw Materials & Intake
+   - Track new orders for raw materials and whether they have been delivered.
+   - Keep record of outsourced parts alongside raw materials.
+   - Support subgroups (and nested subgroups).
+     Example: Dyed plastics may have interchangeable or non-interchangeable types.
+
+2. Organizing & Categorizing Products
+   - Link products to the raw materials they need and the required quantity.
+   - When one material is short, show:
+     * How many items depend on it
+     * How much should be ideally ordered
+
+3. Waste & Repurposing
+   - Track clippings and plastic waste that can be remolded.
+   - Track other waste to ensure maximum repurposing.
+
+4. Delivery Records
+   - Log daily deliveries to customers.
+   - Ensure discrepancies are avoided (especially for e-commerce orders).
+
+5. Daily Production
+   - Log daily production that will be available for sale next working day.
+   - Track incomplete items and their stage of production.
+
+6. Accounts
+   - Add new suppliers and buyers.
+   - Register bills (ideally via photo upload of physical bill).
+   - Preview and review extracted bill information.
+   - Auto-flag bills for admin review.
+   - Group all bills sensibly (basic intake vs output grouping).
+
+7. Staff Records
+   - Attendance:
+     * Simple system (e.g., Face ID).
+   - Wage Management:
+     * Track work done via ID-based weighing of produce per worker.
+     * Support wage types: daily, weekly, monthly, or performance-based.
+   - Work Distribution:
+     * Track available parts/materials for assembly or processing.
+     * Distribute work to maximize efficiency.
+     * Handle shortages of certain components.
+
+8. Verification & Users
+   - Admin:
+     * Verify details to avoid missing bills or fraud.
+     * Minimize need for admin verification while preventing manager misuse.
+   - User/Manager:
+     * Enter bills and manage stock data in the app.
+
+9. User Experience
+   - Dashboard should show crucial info at a glance:
+     * Wasted work hours
+     * Raw material shortages
+     * Pending orders
+     * Status of daily deliveries
+   - Ability to:
+     * Register new entities (staff, suppliers, buyers).
+     * Log production information.
+     * Log bills for clearing and incoming payments.
+
+10. Admin Features
+    - Review and approve sensitive information before payments.
+    - See summary reports:
+      * Expected produce for the day
+      * Same details as the user dashboard

@@ -1,0 +1,185 @@
+Models:
+    0.StockSnap
+        -productid, raw material id
+        -locationId
+        -quanity
+        //bheri basic phor now
+    1.Raw Materials/packaging
+        -Name
+        -Usage rate?
+        -code/sku
+        -category(parts/raw/recycled/packaging)
+        -unit of measurement
+        -//used in [array of product ids]*
+        -stock[sum of stock snaps]
+        -cost per unit
+        -recorderLevel 
+        -intakeLevel
+    // see the recorder level would be reference for low stock alert. intake level is the estimated intake or production(in case of parts per day)
+    //since doing parts is better, will probably skip the inprogress field in products and production log to make life easier
+    2.Products
+        -name
+        -unit
+        -cost per unit(calculated)?
+        -sales price(what we get)
+        -target sales price(what we target for)
+        //use this target and actual sp for analysis purpose
+        -raw materials used[array of raw material ids], required per unit *
+        -stock{packaged, to be packaged}
+        -production rate
+        -by product : [name, producePerUnit, unit_measure]
+    3.waste clippings(i think could just go in raw materials, with some way to estimate how much clipping should be there and how much we actually got)
+    4.Delivery
+        -buyerid
+        -supplierid
+        -content
+        -billid:[...bills]
+        -direction
+        -vehicleid/driverid
+        -time
+        -//tollid
+    5.Attendance Record
+        - employeeId
+        - date
+        - inTime
+        //maybe add event system ugh like in time out time pairs in array to account for breaks
+        - outTime
+        - status (present/absent/leave)
+        - hoursWorked (calculated)
+    6.Bill
+        -id
+        -category(toll/tax/expenses/maintenance ya jo bhi)
+        -type(credit/debit)
+        -from(name, supplierid/buyerid, account details if any)
+        -to
+        -dueDate
+        -createdatt
+        -items[array of tiems and quantity with ids]
+        -notes
+        -created at date
+        -payment method
+        -payment date
+        -status(pending, late, paid)
+        -photo_url:
+    7.Buyer/supplier
+        -name
+        -id
+        -type(buyer/supplier/both ya jo bhi)
+        -adress 
+        -contactStore:[]
+        //-contactPerson
+        -gstnum?
+        -banking details?
+    8.Staff
+        -name
+        -role
+        -wage(amount and type(hourly weekly daily monthly ))
+        -contact(phone)
+        -joining date
+        -is active or not(boolean)
+        -lastPaid:?
+    9.user
+        -name
+        -role(admin/manager)
+        -permisions[]
+        -contact
+        -login logs
+        -auth
+    10.Production log
+        - productId
+        - date
+        - state(packaged, tobepackaged)
+        //do i really  need the inprogress field?
+        -rawMaterials consumed[{id, qty}]
+        -quantityProduced
+        -locationId
+        -expected waste
+        -actual waste
+        -defective units with notes
+    11.InventoryMovement
+        -id
+        -itemType ("rawMaterial" / "product")
+        -itemId
+        -unitcost at time of movement
+        -quantity (+/-)
+        -reason ("purchase", "production", "waste", "sale", etc.)
+        -date
+        -locationId(from, to)(for warehouse and factory integration)
+        -linkedId (deliveryId/billId/productionLogId)
+    12.Assets
+        - id
+        - type ("vehicle", "machine", etc.)
+        - name
+        -locationId(if at a partictular location)
+        - status ("active", "maintenance")
+        - lastServiceDate[(bill and records if any).
+        array of bill ids with a note]
+        - notes
+        -purchacedate
+        -cost
+    13.Location
+        - id
+        - name (Factory 1,Warehouse wagera wgera)
+        - type (factory, warehouse, office)
+        - address
+        - contact (manager in charge, phone/email)
+        - capacity ( max stock units / production capacity)
+        - notes
+        - isActive (boolean)
+
+//log when raw material moved, save as draft, after production log what parts were made with quantity and how much was wasted log it. log all as inventory movement as, production log is only for final product. it will create two inventory logs for raw material out and parts in with how much wasted as note. or maybe the parts that were manufactured would be in production log too. yeah that sounds better.
+
+//Add createddby createdat updatedby updatedAt attributes for all records taaki multi user support ho
+
+//too tired but need to think about payroll system and calculation
+//and stock system. try to avoid to store stock in raw material maybe to avoid duplication. kuch InventoryMovement or dusra stock record bana ke stocks manage karne ka try karne ka hai
+
+Pages:
+    1.Admin/Manager Dashboard
+        -Add|
+            |--Delivery
+            |--Attendance
+            |--log production(form to fill out multiple fields to add multiple products at once. Jisme Product name )
+        -New
+            give option for everything from product to buyer to bill to raw material. as in adding a new product
+        -Low stock alerts
+        -pening deliveries/target for today
+        -production log graphed out(product wise, time framed,)
+    2.reports
+        -stock level
+        -production report
+        -profitability pisa pisaa
+        -waste repurposing(maybe utna zaruri hai nahi. fancy laga mujhe bas)
+        -employee work hours and work done report
+        -Asset Utilization Report (machine uptime vs downtime)
+    3.Attendances And Staff (***)
+        -list of employees
+        -option to view there Attendance
+        -there wage records and shit
+        -Add/review Attendance
+        -flag too many absents
+        -tab to just view day wise attendance
+    4.Stock (***)
+        -query by name/ query by type(raw materials, product/ parts etc)/ query by used in
+        // tabs for different types would be better
+        -filter low stocks
+        -show quantity and split between different locations state also in case of packaged or to be packaged
+    5.Production (***)
+        -log production
+        -view production history
+        -query by date/ product name / id
+        -flag days with low production and products that are below target and an estimated product rate increase to get back on Track
+    6.Buyer/SupplierParty
+        -wahi wapas add view query
+    7.products page
+        -wapas wahi add view querry
+    8.Bills & Accounts (***)
+        -Add Bill (capture/upload image extract fields-review)
+        -Bill List (pending, late, paid)
+        -Bill Details (linked supplier/buyer, items, status)
+        -Payment Tracking filter (method, date, due reminders)
+        -Expense Categories filter (toll, tax, maintenance)
+        -Profit       3ability Report (sales – purchases – expenses)
+    9. Assets and locations ke liye ek chotu sa page.
+    10. baaki user pages. login setting etc
+    //most things here would be similar just a fast tab base nav to view important pages. baaki toh sab spreadsheet hi fill karni hai
