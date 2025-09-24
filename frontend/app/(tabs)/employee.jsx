@@ -10,7 +10,6 @@ const employee = () => {
       <Text>employeesssdfdsaf</Text>
       <EmployeeCard/>
       <EmployeeCard/>
-      <EmployeeCard/>
     </View>
     </SafeAreaView>
   )
